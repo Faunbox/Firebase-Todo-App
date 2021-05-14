@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from "react";
+import { GlobalStyles } from "./global/GlobalStyles";
+import PrivateRoute from "./Components/PrivateRoute";
+import { AuthProvider } from "./context/AuthContex";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+// eslint-disable-next-line
+import firebase from "./Components/firebase";
+
+import Todo from "./Components/Todo";
+import Navigate from "./Components/Navigate";
+
+const SignUp = React.lazy(() => import("./Components/Signup"));
+const LogIn = React.lazy(() => import("./Components/LogIn"));
+const ForgotPassword = React.lazy(() => import("./Components/ForgotPassword"));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <GlobalStyles />
+        <AuthProvider>
+          <Navigate />
+          <Switch>
+            <Suspense fallback={<div>Wczytywanie...</div>}>
+              <PrivateRoute exact path="/" component={Todo} />
+              <Route path="/rejestracja" component={SignUp} />
+              <Route path="/logowanie" component={LogIn} />
+              <Route path="/reset-hasla" component={ForgotPassword} />
+            </Suspense>
+          </Switch>
+        </AuthProvider>
+      </Router>
+    </>
   );
 }
 
