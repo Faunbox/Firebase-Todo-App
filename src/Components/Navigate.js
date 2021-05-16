@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
 import styled from "styled-components";
 
 import { useAuth } from "../context/AuthContex";
@@ -11,26 +11,14 @@ const Nav = styled.nav`
   justify-content: flex-end;
   width: 100%;
 `;
-const UserName = styled.p`
-  font-weight: 400;
-  line-height: 24px;
-  margin: auto 6px;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 4px;
-`;
 
 export default function Navigate() {
   const { currentUser, logout, signUp } = useAuth();
   return (
     <Nav>
       {currentUser && (
-        <Wrapper>
-          <UserName>zalogowany jako: {currentUser.email}</UserName>
+        <Container className="d-flex align-items-center justify-content-end mt-2">
+          <p className="my-auto mr-3">zalogowany jako: {currentUser.email}</p>
           <Button
             href={currentUser && "/rejestracja"}
             variant="primary"
@@ -39,7 +27,7 @@ export default function Navigate() {
           >
             {currentUser ? "Wyloguj" : "Rejestracja"}
           </Button>
-        </Wrapper>
+        </Container>
       )}
     </Nav>
   );
