@@ -1,16 +1,27 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Containter from "react-bootstrap/Container";
 import { db } from "./firebase";
 import { useAuth } from "../context/AuthContex";
+import styled from "styled-components";
+
+const TasksWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+  justify-content: center;
+  flex-direction: column;
+  height: auto;
+`;
 
 export default function TaskForm() {
   const [todo, setTodo] = useState("");
   const { currentUser } = useAuth();
+  const date = new Date();
 
   function addTaskToDb(task) {
-    return { id: Date.now(), name: task, complete: false };
+    return { id: date.toString(), name: task, complete: false };
   }
 
   function handleSubmit(e) {
@@ -23,7 +34,7 @@ export default function TaskForm() {
   }
 
   return (
-    <Containter className="d-flex align-items-center justify-content-center">
+    <TasksWrapper>
       <Form
         type="submit"
         onSubmit={handleSubmit}
@@ -38,9 +49,11 @@ export default function TaskForm() {
             value={todo}
             onChange={(e) => setTodo(e.target.value)}
           />
+          <Button className="my-3" type="submit">
+            Dodaj zadanie
+          </Button>
         </Form.Group>
-        <Button type="submit">Dodaj zadanie</Button>
       </Form>
-    </Containter>
+    </TasksWrapper>
   );
 }
