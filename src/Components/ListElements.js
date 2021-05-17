@@ -1,16 +1,25 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import Task from "./Task";
 
-import Containter from "react-bootstrap/Container";
+import styled from "styled-components";
 
-function ListElements({ tasks, updateTodos }) {
+const TasksWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 2rem auto;
+  justify-content: center;
+  flex-direction: column;
+  height: auto;
+`;
+
+function ListElements({ tasks }) {
   return (
-    <Containter className="d-flex align-items-center justify-content-center flex-column my-4">
+    <TasksWrapper>
       {tasks.map((task) => (
         <Task key={task.id} todo={task} />
       ))}
-    </Containter>
+    </TasksWrapper>
   );
 }
 

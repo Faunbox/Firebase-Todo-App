@@ -11,27 +11,25 @@ export default function Todo() {
   const { currentUser } = useAuth();
 
   async function getTodoList() {
-    await db
-      .collection(`${currentUser.uid}`)
-      .get()
-      .then((querySnapshot) => {
-        setTodos(
-          ...todos,
-          querySnapshot.docs.map((doc) => {
-            return doc.data();
-          })
-        );
-      });
+    await db.collection(`${currentUser.uid}`).onSnapshot((querySnapshot) => {
+      setTodos(
+        ...todos,
+        querySnapshot.docs.map((doc) => {
+          return doc.data();
+        })
+      );
+    });
   }
 
   useEffect(() => {
     getTodoList();
+    // eslint-disable-next-line
   }, []);
 
   return (
     <>
-      <Form updateTodos={getTodoList} />
-      <ListElements tasks={todos} updateTodos={getTodoList} />
+      <Form />
+      <ListElements tasks={todos} />
     </>
   );
 }
