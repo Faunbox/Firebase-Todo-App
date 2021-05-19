@@ -15,7 +15,12 @@ export default function Todo() {
       setTodos(
         ...todos,
         querySnapshot.docs.map((doc) => {
-          return doc.data();
+          return {
+            id: doc.id,
+            name: doc.data().name,
+            time: doc.data().time,
+            complete: doc.data().complete,
+          };
         })
       );
     });

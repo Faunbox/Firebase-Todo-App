@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { db } from "./firebase";
+import firebase from "firebase/app";
 import { useAuth } from "../context/AuthContex";
 import styled from "styled-components";
 
@@ -21,16 +22,20 @@ export default function TaskForm() {
   const date = new Date();
 
   function addTaskToDb(task) {
-    return { id: date.toString(), name: task, complete: false };
+    return {
+      id: date,
+      name: task,
+      complete: false,
+      time: firebase.firestore.FieldValue.serverTimestamp(),
+    };
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (todo.length >= 3) {
-      const task = addTaskToDb(todo);
-      db.collection(`${currentUser.uid}`).add(task);
-      setTodo("");
-    } else alert("Zadanie ma poniżej 3 znaków!");
+
+    const task = addTaskToDb(todo);
+    db.collection(`${currentUser.uid}`).add(task);
+    setTodo("");
   }
 
   return (
@@ -49,7 +54,7 @@ export default function TaskForm() {
             value={todo}
             onChange={(e) => setTodo(e.target.value)}
           />
-          <Button className="my-3" type="submit">
+          <Button disabled={todo.length < 3} className="my-3" type="submit">
             Dodaj zadanie
           </Button>
         </Form.Group>
