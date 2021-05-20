@@ -23,14 +23,12 @@ export default function Task({ todo }) {
     db.collection(`${currentUser.uid}`)
       .doc(id)
       .delete()
-      .then((res) => console.log("usunieto", res))
-      .catch((error) =>
-        console.log(db.collection(`${currentUser.uid}`).doc(id), error)
-      );
+      .catch((error) => console.log(error));
   }
 
   function handleOpen() {
     setOpen(true);
+    console.log(todo);
   }
   return (
     <>
@@ -38,7 +36,7 @@ export default function Task({ todo }) {
         <p className="my-auto" key={todo.id}>
           {todo.name}
         </p>
-        <Button variant="warning" className="mx-2" onClick={handleOpen}>
+        <Button variant="secondary" className="mx-2" onClick={handleOpen}>
           Edytuj
         </Button>
         <Button

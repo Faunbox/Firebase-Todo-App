@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -7,12 +7,10 @@ import { useAuth } from "../context/AuthContex";
 
 export default function EditModal({ todo, open, setOpen }) {
   const { currentUser } = useAuth();
-  const editRef = useRef(null);
+  const [edit, setEdit] = useState("");
 
   async function editTask(id) {
-    db.collection(`${currentUser.uid}`)
-      .doc(id)
-      .update({ name: editRef.current.value });
+    db.collection(`${currentUser.uid}`).doc(id).update({ name: edit });
     handleClose();
   }
 
@@ -36,17 +34,21 @@ export default function EditModal({ todo, open, setOpen }) {
             <Form.Control
               type="text"
               placeholder="Nowa treść zadania"
-              ref={editRef}
+              onChange={(e) => setEdit(e.target.value)}
             />
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
+        <Button variant="danger" onClick={handleClose}>
+          Zamknij
         </Button>
-        <Button variant="primary" onClick={() => editTask(todo.id)}>
-          Save changes
+        <Button
+          disabled={edit.length < 3}
+          variant="primary"
+          onClick={() => editTask(todo.id)}
+        >
+          Zapisz
         </Button>
       </Modal.Footer>
     </Modal>
