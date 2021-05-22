@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { db } from "../Components/firebase";
 import firebase from "firebase/app";
 import { useAuth } from "../context/AuthContex";
@@ -16,25 +22,46 @@ export function DataProvider({ children }) {
   const date = new Date();
   const { currentUser } = useAuth();
 
-  async function getTodoList(userUid) {
-    await db
-      .collection(`${userUid}`)
-      .orderBy("time", "desc")
-      .onSnapshot((querySnapshot) => {
-        setTodos(
-          ...todos,
-          querySnapshot.docs.map((doc) => {
-            return {
-              id: doc.id,
-              name: doc.data().name,
-              time: doc.data().time,
-              complete: doc.data().complete,
-            };
-          })
-        );
-        setLoading(false);
-      });
-  }
+  const getTodoList = useCallback(
+    (userUid) => {
+      db.collection(`${userUid}`)
+        .orderBy("time", "desc")
+        .onSnapshot((querySnapshot) => {
+          setTodos(
+            ...todos,
+            querySnapshot.docs.map((doc) => {
+              return {
+                id: doc.id,
+                name: doc.data().name,
+                time: doc.data().time,
+                complete: doc.data().complete,
+              };
+            })
+          );
+          setLoading(false);
+        });
+    },
+    [todos]
+  );
+  // ) async function getTodoList(userUid) {
+  //   await db
+  //     .collection(`${userUid}`)
+  //     .orderBy("time", "desc")
+  //     .onSnapshot((querySnapshot) => {
+  //       setTodos(
+  //         ...todos,
+  //         querySnapshot.docs.map((doc) => {
+  //           return {
+  //             id: doc.id,
+  //             name: doc.data().name,
+  //             time: doc.data().time,
+  //             complete: doc.data().complete,
+  //           };
+  //         })
+  //       );
+  //       setLoading(false);
+  //     });
+  // }
 
   function addTaskToDb(task) {
     return {
@@ -54,6 +81,7 @@ export function DataProvider({ children }) {
 
   function editTask(userUid, id, edit) {
     db.collection(`${userUid}`).doc(id).update({ name: edit });
+    setFiltered(null);
   }
 
   function searchTask(tasks, search) {
@@ -65,9 +93,10 @@ export function DataProvider({ children }) {
   }
 
   useEffect(() => {
-    getTodoList(currentUser.uid);
+    currentUser !== null && getTodoList(currentUser.uid);
+    console.log("uruchomienie useEffect w DataContext");
     // eslint-disable-next-line
-  }, []);
+  }, [currentUser]);
 
   const value = {
     todos,
@@ -79,9 +108,5 @@ export function DataProvider({ children }) {
     filtered,
   };
 
-  return (
-    <DataContext.Provider value={value}>
-      {!loading && children}
-    </DataContext.Provider>
-  );
+  return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }
