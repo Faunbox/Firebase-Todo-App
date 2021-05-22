@@ -2,17 +2,13 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import { db } from "./firebase";
 import { useAuth } from "../context/AuthContex";
+import { useData } from "../context/DataContext";
 
 export default function EditModal({ todo, open, setOpen }) {
   const { currentUser } = useAuth();
   const [edit, setEdit] = useState("");
-
-  async function editTask(id) {
-    db.collection(`${currentUser.uid}`).doc(id).update({ name: edit });
-    handleClose();
-  }
+  const { editTask } = useData();
 
   function handleClose() {
     setOpen(false);
@@ -27,7 +23,7 @@ export default function EditModal({ todo, open, setOpen }) {
         <Form
           onSubmit={(e) => {
             e.preventDefault();
-            editTask(todo.id);
+            editTask(currentUser.uid, todo.id, edit);
           }}
         >
           <Form.Group>

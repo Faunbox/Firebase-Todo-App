@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { db } from "./firebase";
-import firebase from "firebase/app";
 import { useAuth } from "../context/AuthContex";
+import { useData } from "../context/DataContext";
 import styled from "styled-components";
 
 const TasksWrapper = styled.div`
@@ -19,16 +19,7 @@ const TasksWrapper = styled.div`
 export default function TaskForm() {
   const [todo, setTodo] = useState("");
   const { currentUser } = useAuth();
-  const date = new Date();
-
-  function addTaskToDb(task) {
-    return {
-      id: date,
-      name: task,
-      complete: false,
-      time: firebase.firestore.FieldValue.serverTimestamp(),
-    };
-  }
+  const { addTaskToDb } = useData();
 
   function handleSubmit(e) {
     e.preventDefault();

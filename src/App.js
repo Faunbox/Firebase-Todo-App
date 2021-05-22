@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { GlobalStyles } from "./global/GlobalStyles";
 import PrivateRoute from "./Components/PrivateRoute";
 import { AuthProvider } from "./context/AuthContex";
+import { DataProvider } from "./context/DataContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // eslint-disable-next-line
 import firebase from "./Components/firebase";
@@ -19,15 +20,17 @@ function App() {
       <Router>
         <GlobalStyles />
         <AuthProvider>
-          <Navigate />
-          <Switch>
-            <Suspense fallback={<div>Wczytywanie...</div>}>
-              <PrivateRoute exact path="/" component={Todo} />
-              <Route path="/rejestracja" component={SignUp} />
-              <Route path="/logowanie" component={LogIn} />
-              <Route path="/reset-hasla" component={ForgotPassword} />
-            </Suspense>
-          </Switch>
+          <DataProvider>
+            <Navigate />
+            <Switch>
+              <Suspense fallback={<div>Wczytywanie...</div>}>
+                <PrivateRoute exact path="/" component={Todo} />
+                <Route path="/rejestracja" component={SignUp} />
+                <Route path="/logowanie" component={LogIn} />
+                <Route path="/reset-hasla" component={ForgotPassword} />
+              </Suspense>
+            </Switch>
+          </DataProvider>
         </AuthProvider>
       </Router>
     </>

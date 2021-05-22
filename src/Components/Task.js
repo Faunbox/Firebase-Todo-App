@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import EditModal from "./EditModal";
-import { db } from "./firebase";
 import { useAuth } from "../context/AuthContex";
+import { useData } from "../context/DataContext";
 
 const TasksWrapper = styled.div`
   display: flex;
@@ -16,15 +16,9 @@ const TasksWrapper = styled.div`
 `;
 
 export default function Task({ todo }) {
-  const { currentUser } = useAuth();
   const [open, setOpen] = useState(false);
-
-  async function deleteTask(id) {
-    db.collection(`${currentUser.uid}`)
-      .doc(id)
-      .delete()
-      .catch((error) => console.log(error));
-  }
+  const { currentUser } = useAuth();
+  const { deleteTask } = useData();
 
   function handleOpen() {
     setOpen(true);
@@ -42,7 +36,7 @@ export default function Task({ todo }) {
         <Button
           variant="danger"
           className="mx-2"
-          onClick={() => deleteTask(todo.id)}
+          onClick={() => deleteTask(currentUser.uid, todo.id)}
         >
           Usuń
         </Button>

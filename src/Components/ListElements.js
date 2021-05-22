@@ -3,6 +3,7 @@ import React from "react";
 import Task from "./Task";
 
 import styled from "styled-components";
+import { useData } from "../context/DataContext";
 
 const TasksWrapper = styled.div`
   display: flex;
@@ -13,12 +14,12 @@ const TasksWrapper = styled.div`
   height: auto;
 `;
 
-function ListElements({ tasks }) {
+function ListElements() {
+  const { todos } = useData();
+
   return (
     <TasksWrapper>
-      {tasks.map((task) => (
-        <Task key={task.id} todo={task} />
-      ))}
+      {todos && todos.map((task) => <Task key={task.id} todo={task} />)}
     </TasksWrapper>
   );
 }
