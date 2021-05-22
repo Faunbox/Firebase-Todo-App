@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import styled from "styled-components";
+import { useData } from "../context/DataContext";
 
 const TasksWrapper = styled.div`
   display: flex;
@@ -12,10 +13,11 @@ const TasksWrapper = styled.div`
   height: auto;
 `;
 
-export default function SearchTodos({ tasks }) {
+export default function SearchTodos() {
   const [search, setSearch] = useState("");
+  const { todos } = useData();
 
-  let filtered = tasks.filter((todo) =>
+  let filtered = todos.filter((todo) =>
     todo.name.toLowerCase().includes(`${search.toLowerCase()}`)
   );
 
