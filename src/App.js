@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import { GlobalStyles } from "./global/GlobalStyles";
 import PrivateRoute from "./Components/PrivateRoute";
 import { AuthProvider } from "./context/AuthContex";
 import { DataProvider } from "./context/DataContext";
@@ -18,7 +17,6 @@ function App() {
   return (
     <>
       <Router>
-        <GlobalStyles />
         <AuthProvider>
           <DataProvider>
             <Navigate />

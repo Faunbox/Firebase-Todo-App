@@ -11,6 +11,7 @@ export function useData() {
 
 export function DataProvider({ children }) {
   const [todos, setTodos] = useState([]);
+  const [filtered, setFiltered] = useState();
   const [loading, setLoading] = useState(true);
   const date = new Date();
   const { currentUser } = useAuth();
@@ -55,6 +56,14 @@ export function DataProvider({ children }) {
     db.collection(`${userUid}`).doc(id).update({ name: edit });
   }
 
+  function searchTask(tasks, search) {
+    setFiltered(
+      tasks.filter((todo) =>
+        todo.name.toLowerCase().includes(`${search.toLowerCase()}`)
+      )
+    );
+  }
+
   useEffect(() => {
     getTodoList(currentUser.uid);
     // eslint-disable-next-line
@@ -66,6 +75,8 @@ export function DataProvider({ children }) {
     addTaskToDb,
     deleteTask,
     editTask,
+    searchTask,
+    filtered,
   };
 
   return (

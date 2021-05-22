@@ -1,42 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import Form from "react-bootstrap/Form";
-import styled from "styled-components";
 import { useData } from "../context/DataContext";
 
-const TasksWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  width: 80%;
-  margin: 0 auto;
-  justify-content: center;
-  flex-direction: column;
-  height: auto;
-`;
-
 export default function SearchTodos() {
-  const [search, setSearch] = useState("");
-  const { todos } = useData();
-
-  let filtered = todos.filter((todo) =>
-    todo.name.toLowerCase().includes(`${search.toLowerCase()}`)
-  );
+  const { todos, searchTask } = useData();
 
   return (
-    <TasksWrapper>
-      <Form className="text-center m-5 w-100">
-        <Form.Group>
-          <Form.Label>Wyszukaj zadanie</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Wyszukaj zadanie"
-            className="text-center"
-            onChange={(e) => {
-              setSearch(e.target.value);
-              console.log(filtered);
-            }}
-          />
-        </Form.Group>
-      </Form>
-    </TasksWrapper>
+    <Form className="text-center w-100">
+      <Form.Group className="d-flex align-items-center justify-content-center flex-column">
+        <Form.Label>Wyszukaj zadanie</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Wyszukaj zadanie"
+          className="text-center w-50"
+          onChange={(e) => {
+            searchTask(todos, e.target.value);
+          }}
+        />
+      </Form.Group>
+    </Form>
   );
 }

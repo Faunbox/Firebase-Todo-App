@@ -15,11 +15,13 @@ const TasksWrapper = styled.div`
 `;
 
 function ListElements() {
-  const { todos } = useData();
+  const { todos, filtered } = useData();
 
   return (
     <TasksWrapper>
-      {todos && todos.map((task) => <Task key={task.id} todo={task} />)}
+      {filtered
+        ? filtered.map((task) => <Task key={task.id} todo={task} />)
+        : todos.map((task) => <Task key={task.id} todo={task} />)}
     </TasksWrapper>
   );
 }

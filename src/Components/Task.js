@@ -22,7 +22,6 @@ export default function Task({ todo }) {
 
   function handleOpen() {
     setOpen(true);
-    console.log(todo);
   }
   return (
     <>

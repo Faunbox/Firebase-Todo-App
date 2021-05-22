@@ -24,6 +24,7 @@ export default function EditModal({ todo, open, setOpen }) {
           onSubmit={(e) => {
             e.preventDefault();
             editTask(currentUser.uid, todo.id, edit);
+            setOpen(false);
           }}
         >
           <Form.Group>
@@ -41,8 +42,13 @@ export default function EditModal({ todo, open, setOpen }) {
         </Button>
         <Button
           disabled={edit.length < 3}
+          type="submit"
           variant="primary"
-          onClick={() => editTask(todo.id)}
+          onClick={(e) => {
+            e.preventDefault();
+            editTask(currentUser.uid, todo.id, edit);
+            setOpen(false);
+          }}
         >
           Zapisz
         </Button>
