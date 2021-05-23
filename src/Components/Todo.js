@@ -9,7 +9,7 @@ const TasksWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 80%;
-  margin: 20px auto;
+  margin: 10px auto;
   justify-content: center;
   flex-direction: column;
   height: auto;

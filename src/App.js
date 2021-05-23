@@ -8,6 +8,7 @@ import firebase from "./Components/firebase";
 
 import Todo from "./Components/Todo";
 import Navigate from "./Components/Navigate";
+import { GlobalStyles } from "./global/GlobalStyles";
 
 const SignUp = React.lazy(() => import("./Components/Signup"));
 const LogIn = React.lazy(() => import("./Components/LogIn"));
@@ -17,6 +18,7 @@ function App() {
   return (
     <>
       <Router>
+        <GlobalStyles />
         <AuthProvider>
           <DataProvider>
             <Navigate />

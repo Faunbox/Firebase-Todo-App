@@ -18,7 +18,6 @@ export function useData() {
 export function DataProvider({ children }) {
   const [todos, setTodos] = useState([]);
   const [filtered, setFiltered] = useState();
-  const [loading, setLoading] = useState(true);
   const date = new Date();
   const { currentUser } = useAuth();
 
@@ -38,30 +37,10 @@ export function DataProvider({ children }) {
               };
             })
           );
-          setLoading(false);
         });
     },
     [todos]
   );
-  // ) async function getTodoList(userUid) {
-  //   await db
-  //     .collection(`${userUid}`)
-  //     .orderBy("time", "desc")
-  //     .onSnapshot((querySnapshot) => {
-  //       setTodos(
-  //         ...todos,
-  //         querySnapshot.docs.map((doc) => {
-  //           return {
-  //             id: doc.id,
-  //             name: doc.data().name,
-  //             time: doc.data().time,
-  //             complete: doc.data().complete,
-  //           };
-  //         })
-  //       );
-  //       setLoading(false);
-  //     });
-  // }
 
   function addTaskToDb(task) {
     return {

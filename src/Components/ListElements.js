@@ -8,7 +8,7 @@ import { useData } from "../context/DataContext";
 const TasksWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: 2rem auto;
+  margin: 0 auto;
   justify-content: center;
   flex-direction: column;
   height: auto;

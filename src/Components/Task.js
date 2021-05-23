@@ -8,11 +8,14 @@ import { useData } from "../context/DataContext";
 const TasksWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: 2rem auto;
+  margin: 10px auto;
+  flex-wrap: wrap;
   justify-content: center;
   flex-direction: row;
   height: auto;
   text-align: center;
+  width: 100%;
+  /* border: 1px solid black; */
 `;
 
 export default function Task({ todo }) {
@@ -26,7 +29,7 @@ export default function Task({ todo }) {
   return (
     <>
       <TasksWrapper>
-        <p className="my-auto" key={todo.id}>
+        <p className="m-3" key={todo.id}>
           {todo.name}
         </p>
         <Button variant="secondary" className="mx-2" onClick={handleOpen}>
@@ -34,7 +37,7 @@ export default function Task({ todo }) {
         </Button>
         <Button
           variant="danger"
-          className="mx-2"
+          className="m-2"
           onClick={() => deleteTask(currentUser.uid, todo.id)}
         >
           Usuń
