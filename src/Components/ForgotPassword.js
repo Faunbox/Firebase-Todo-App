@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import { useAuth } from "../context/AuthContex";
+import { useHistory } from "react-router-dom";
 
 const ForgotPassword = () => {
   const emailRef = useRef(null);
@@ -8,6 +9,7 @@ const ForgotPassword = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  let history = useHistory();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -33,13 +35,19 @@ const ForgotPassword = () => {
         <div className={"w-100"} style={{ maxWidth: "400px" }}>
           <Card>
             <Card.Body>
-              <h2 className="text-center mb-4">Reset hasła</h2>
+              <Button onClick={history.goBack}>Cofnij</Button>
+              <h2 className="text-center mb-4 overflow-hidden">Reset hasła</h2>
               {error && <Alert variant="danger">{error}</Alert>}
               {message && <Alert variant="success">{message}</Alert>}
               <Form onSubmit={handleSubmit}>
                 <Form.Group id="email">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" required ref={emailRef} />
+                  <Form.Label>Twój email</Form.Label>
+                  <Form.Control
+                    placeholder="Wpisz swój mail aby zresetować hasło"
+                    type="email"
+                    required
+                    ref={emailRef}
+                  />
                 </Form.Group>
                 <Button disabled={loading} className="w-100" type="submit">
                   Zresetuj hasło

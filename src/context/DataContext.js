@@ -33,7 +33,7 @@ export function DataProvider({ children }) {
                 id: doc.id,
                 name: doc.data().name,
                 time: doc.data().time,
-                complete: doc.data().complete,
+                // complete: doc.data().complete,
               };
             })
           );
@@ -73,7 +73,6 @@ export function DataProvider({ children }) {
 
   useEffect(() => {
     currentUser !== null && getTodoList(currentUser.uid);
-    console.log("uruchomienie useEffect w DataContext");
     // eslint-disable-next-line
   }, [currentUser]);
 

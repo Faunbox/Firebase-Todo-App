@@ -39,7 +39,9 @@ const SignUp = () => {
         <div className={"w-100"} style={{ maxWidth: "400px" }}>
           <Card>
             <Card.Body>
-              <h2 className="text-center mb-4">Zarejestruj się</h2>
+              <h2 className="text-center mb-4 overflow-hidden">
+                Zarejestruj się
+              </h2>
               {error && <Alert variant="danger">{error}</Alert>}
               <Form onSubmit={handleSubmit}>
                 <Form.Group id="email">
